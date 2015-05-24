@@ -306,8 +306,13 @@ function draw() {
             ctx.fillText("and high water",100,50);
         }
 
-        ctx.fillStyle = "#000000";
-        ctx.fillText("I love you more than anything!",100,50);
+        if(substate >= 1)
+        {
+            ctx.fillStyle = "#000000";
+            ctx.fillText("I love you more than anything!",100,50);
+        }
+
+
     }
 
 
