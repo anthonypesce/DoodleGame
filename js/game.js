@@ -38,6 +38,28 @@ function touchHandler(event) {
 
     }
 
+    if(state === 2) {
+        substate += 1;
+
+
+
+        if(substate >= 1)
+        {
+            x+=20;
+        }
+    }
+
+    if(state === 2) {
+        substate += 1;
+
+
+
+        if(substate >= 1)
+        {
+           // x+=20;
+        }
+    }
+
     if(state ===0 && substate >= 3)
     {
         state = 1;
@@ -58,6 +80,13 @@ function init(){
     touchzone.addEventListener("touchstart", touchHandler, false);
     //touchzone.addEventListener("click",touchHandler,false);
 
+    for(var i = 1;i<5;i++)
+    {
+        var tempFire = new fire((i*80)+170)
+        fires.push(tempFire);
+    }
+
+
 }
 
 var interval = 0;
@@ -70,6 +99,17 @@ var log = function (y)
     this.color = "#996633";
     this.width = 100;
     this.height = 40;
+};
+
+var fires = [];
+var fire = function (x)
+{
+    this.y = 0;
+    this.x= x;
+    this.color = "#000000";
+    this.width = 40;
+    this.height = 50;
+    this.vely = Math.random() * 2 + 1;
 };
 
 function intersectRect(r1, r2) {
@@ -90,6 +130,8 @@ function update() {
         {
             state = 2;
             substate = 0;
+            x= 0;
+            y=300;
         }
 
         interval++;
@@ -97,8 +139,6 @@ function update() {
         if(interval % 40 === 0)
         {
             var tempLog = new log(Math.random() * 300 + 50);
-            //tempLog.y = Math.random() * 300 + 100;
-            //console.log("HERE");
             logs.push(tempLog)
         }
 
@@ -124,6 +164,44 @@ function update() {
         }
 
     }
+
+    if(state ===2) {
+        if(x >= 700) {
+            state = 3;
+            substate = 0;
+        }
+
+        var playerRect = {};
+        playerRect.x = x;
+        playerRect.y = y;
+        playerRect.width = 75;
+        playerRect.height = 75;
+
+        for(var i =0;i<fires.length;i++) {
+            if(fires[i].y<0) {
+                fires[i].vely *= -1;
+
+            }
+
+            if(fires[i].y+100 >=500) {
+                fires[i].vely *= -1;
+            }
+
+            var fireRect = {};
+            fireRect.x = fires[i].x;
+            fireRect.y = fires[i].y;
+            fireRect.width = fires[i].width;
+            fireRect.height = fires[i].height;
+
+            if (playerRect.x < fireRect.x + fireRect.width  && playerRect.x + playerRect.width  > fireRect.x &&
+                playerRect.y < fireRect.y + fireRect.height && playerRect.y + playerRect.height > fireRect.y) {
+                //console.log("HIT");
+                x= 10;
+            }
+        }
+
+    }
+
 
 
 }
@@ -186,6 +264,50 @@ function draw() {
                 ctx.fillRect(logs[i].x,logs[i].y,logs[i].width,logs[i].height)
             }
         }
+    }
+
+    if(state === 2)
+    {
+        if(substate === 0)
+        {
+            ctx.fillStyle = "#000000";
+            ctx.fillText("I would brave hell",100,50);
+        }
+        if(substate >= 1)
+        {
+            var grd = ctx.createLinearGradient(0,0,900,0);
+            grd.addColorStop(0,"red");
+            grd.addColorStop(1,"white");
+
+            ctx.fillStyle = grd;
+            ctx.fillRect(0,0,900,500);
+
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(700,300,75,75);
+
+            ctx.fillStyle = "#0000FF";
+            ctx.fillRect(x,y,75,75);
+
+            for(var i = 0;i<fires.length;i++) {
+                ctx.fillStyle = fires[i].color;
+
+                fires[i].y += fires[i].vely;
+                ctx.fillRect(fires[i].x,fires[i].y,fires[i].width,fires[i].height)
+            }
+        }
+
+    }
+
+    if(state === 3)
+    {
+        if(substate === 0)
+        {
+            ctx.fillStyle = "#000000";
+            ctx.fillText("and high water",100,50);
+        }
+
+        ctx.fillStyle = "#000000";
+        ctx.fillText("I love you more than anything!",100,50);
     }
 
 
