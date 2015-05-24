@@ -49,7 +49,7 @@ function touchHandler(event) {
         }
     }
 
-    if(state === 2) {
+    if(state === 3) {
         substate += 1;
 
 
