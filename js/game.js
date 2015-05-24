@@ -56,7 +56,7 @@ function init(){
     var touchzone = document.getElementById("myCanvas");
     // Add an event handler for the touchstart event
     touchzone.addEventListener("touchstart", touchHandler, false);
-    touchzone.addEventListener("click",touchHandler,false);
+    //touchzone.addEventListener("click",touchHandler,false);
 
 }
 
