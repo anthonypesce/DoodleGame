@@ -13,12 +13,25 @@ var ctx;
 var color = {};
 color.white = "#FFFFFF";
 color.red = "#FF0000";
+color.random = "#FF0000";
+function touchHandler(event) {
+
+    var xTouch = event.touches[0].pageX;
+    var yTouch = event.touches[0].pageY;
+    color.random = Math.floor(Math.random()*16777215).toString(16);
+}
+
 
 function init(){
     c = document.getElementById("myCanvas");
     ctx = c.getContext("2d");
     ctx.font = "30px Arial";
     //ctx.fillText("Hello World",x,y);
+
+    var touchzone = document.getElementById("myCanvas");
+    // Add an event handler for the touchstart event
+    touchzone.addEventListener("touchstart", touchHandler, false);
+
 }
 
 function update() {
@@ -51,7 +64,7 @@ function update() {
 function draw() {
     ctx.fillStyle = color.white;
     ctx.fillRect(0,0,700,500);
-    ctx.fillStyle = color.red;
+    ctx.fillStyle = color.random;
     ctx.fillText("I love you my amazing Rae!!!",x,y);
 }
 
